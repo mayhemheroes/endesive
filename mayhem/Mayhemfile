@@ -1,0 +1,6 @@
+project: endesive
+target: endesive
+
+cmds:
+  - cmd: /fuzz_verify.py
+    libfuzzer: true
