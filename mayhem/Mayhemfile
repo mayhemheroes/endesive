@@ -1,7 +1,6 @@
 project: endesive
 target: endesive-fuzz
-testsuite:
-    - file://mayhem/test_corpus
+
 
 cmds:
   - cmd: /src/mayhem/fuzz_verify.py
