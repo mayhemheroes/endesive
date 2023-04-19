@@ -2,10 +2,9 @@
 
 import atheris
 import sys
-sys.path.append('../')
+sys.path.append('.')
 
 with atheris.instrument_imports():
-	import endesive
 	from endesive.pdf import fpdf
 	from PyPDF2 import PdfReader, PdfWriter
 
