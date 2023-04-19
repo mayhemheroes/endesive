@@ -2,10 +2,10 @@
 
 import atheris
 import sys
-sys.path.append('.')
+#sys.path.append('.')
 
 with atheris.instrument_imports():
-	from endesive.pdf import fpdf
+	from endesive.pdf.fpdf import FPDF
 	from PyPDF2 import PdfReader, PdfWriter
 
 
@@ -19,7 +19,7 @@ def fuzz_test_verify(input_data):
 
     # Call the verify function with the input data
     try:
-        doc = fpdf.FPDF()
+        doc = FPDF()
         doc.pdf_version = "1.3"
         doc.set_compression(0)
         font = 'helvetica'
