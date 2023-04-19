@@ -38,7 +38,7 @@ def fuzz_test_verify(input_data):
             
         
     except Exception as e:
-        print(f"Exception occurred: {str(e)}")
+        return -1
 
 
 
