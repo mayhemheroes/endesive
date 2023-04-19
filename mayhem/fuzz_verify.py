@@ -1,25 +1,48 @@
 #!/usr/bin/env python3
 
-from aetheris import Aetheris
+import atheris
+import sys
 import endesive
 
+with atheris.instrument_imports():
+	from endesive.pdf import fpdf
+	from PyPDF2 import PdfReader, PdfWriter
 
 
 
+
+@atheris.instrument_func
 def fuzz_test_verify(input_data):
+    fdp = atheris.FuzzedDataProvider(input_data)
+    result = fdp.ConsumeRegularFloat()
+   
+
     # Call the verify function with the input data
     try:
-        endesive.verify(input_data)
+        doc = fpdf.FPDF()
+        doc.pdf_version = "1.3"
+        doc.set_compression(0)
+        font = 'helvetica'
+        doc.add_page()
+        doc.set_font(font, '', 13.0)
+        doc.cell(w=result, h=result, align='C', txt="Test", border=result, ln=2, link=None)   
+        doc.output("Outputfile", "F")
+        
+        fname = "Outputfile"
+        with open(fname, "rb") as in_file:
+            input_pdf = PdfReader(in_file)
+            output_pdf = PdfWriter()
+            output_pdf.encrypt("1234", "1234")
+            with open("Outputfile-encrypted", "wb") as out_file:        
+                output_pdf.write(out_file)
+            
+        
     except Exception as e:
         print(f"Exception occurred: {str(e)}")
 
-# Initialize the fuzzer
-aetheris = Aetheris()
 
-# Set the function to be fuzzed and the input type
-aetheris.set_fuzz_function(fuzz_test_verify)
-aetheris.set_input_type(bytes)
 
 # Run the fuzzer
-aetheris.fuzz()
+atheris.Setup(sys.argv, fuzz_test_verify)
+atheris.Fuzz()
 
