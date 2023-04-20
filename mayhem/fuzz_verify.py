@@ -7,12 +7,12 @@ import datetime
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
 
-with atheris.instrument_imports():
-    from endesive import pdf
+#with atheris.instrument_imports():
+from endesive import pdf
 
 
 
-@atheris.instrument_func
+#@atheris.instrument_func
 def fuzz_test_verify(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     result = fdp.ConsumeBytes(fdp.remaining_bytes())
@@ -27,18 +27,24 @@ def fuzz_test_verify(input_data):
             'signingdate': datetime.date.today,
             'reason': 'For Mayhem',
         }
-        with open('output-file', 'wb') as file:
-            file.write(result)
-        file.close()
-        with open('output-file', 'rb') as file:
-            f = file.read()
-            pdf.cms.sign(f,
-                         dct,
-                         p12[0],
-                         p12[1],
-                         p12[2],
-                         'sha256')
-        file.close()
+        with open('output-file', 'wb') as file_in:
+            file_in.write(result)
+        file_in.close()
+
+        with open('output-file', 'rb') as file_out:
+            f = file_out.read()
+        file_out.close()
+
+        if isinstance(f, bytes):
+            f = f.decode()
+        pdf.cms.sign(f.encode('utf-8'),
+                     dct,
+                     p12[0],
+                     p12[1],
+                     p12[2],
+                     'sha256')
+
+
     except ValueError:
         return -1
 
