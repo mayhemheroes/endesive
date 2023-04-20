@@ -7,12 +7,12 @@ import datetime
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
 
-#with atheris.instrument_imports():
-from endesive import pdf
+with atheris.instrument_imports():
+    from endesive import pdf
 
 
 
-#@atheris.instrument_func
+@atheris.instrument_func
 def fuzz_test_verify(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     result = fdp.ConsumeBytes(fdp.remaining_bytes())
