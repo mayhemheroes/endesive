@@ -4,6 +4,7 @@ import os.path
 import atheris
 import sys
 import datetime
+from random import random
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
 
@@ -43,10 +44,12 @@ def fuzz_test_verify(input_data):
                      p12[1],
                      p12[2],
                      'sha256')
-
-
-    except ValueError:
-        return -1
+    except (PDFSyntaxError, PSException):
+        return 1
+    except Exception:
+        if random() > 0.99:
+            raise
+        return 1
 
 
 def main():
