@@ -42,7 +42,10 @@ def fuzz_test_verify(input_data):
 
 
 
-# Run the fuzzer
-atheris.Setup(sys.argv, fuzz_test_verify)
-atheris.Fuzz()
+def main():
+    atheris.Setup(sys.argv, fuzz_test_verify)
+    atheris.Fuzz()
+
+if __name__ == "__main__":
+    main()
 
