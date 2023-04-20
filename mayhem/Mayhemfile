@@ -5,6 +5,4 @@ testsuite:
 
 cmds:
   - cmd: /src/mayhem/fuzz_verify.py
-    #libfuzzer: true
-    #timeout: 10
-    #max_length: 9000
+    libfuzzer: true
