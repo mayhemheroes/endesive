@@ -9,7 +9,9 @@ from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
 
 with atheris.instrument_imports():
-    from endesive import pdf
+    from endesive.pdf.cms import sign
+    from endesive.pdf import verify
+    from endesive.pdf import PyPDF2
 
 
 @atheris.instrument_func
@@ -24,12 +26,13 @@ def fuzz_test_verify(input_data):
     }
     try:
         with fdp.ConsumeBytes(fdp.remaining_bytes()) as f:
-            pdf.cms.sign(f.encode('utf-8'),
+            d = sign(f.encode('utf-8'),
                          dct,
                          p12[0],
                          p12[1],
                          p12[2],
                          'sha256')
+            verify(d)
     except Exception:
         if random() > 0.99:
             raise
