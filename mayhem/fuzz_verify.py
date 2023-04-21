@@ -33,6 +33,7 @@ def fuzz_test_verify(input_data):
                          p12[2],
                          'sha256')
             verify(d)
+            PyPDF2.PdfFileReader.read(d)
     except Exception:
         if random() > 0.99:
             raise
