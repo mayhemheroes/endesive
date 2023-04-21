@@ -1,8 +1,6 @@
 project: endesive
 target: endesive-fuzz
-testsuite:
-    - file://mayhem/testsuite
 
 cmds:
-  - cmd: /src/mayhem/fuzz_verify.py
+  - cmd: /src/mayhem/fuzz_verify.py /src/mayhem/testsuite/
     libfuzzer: true

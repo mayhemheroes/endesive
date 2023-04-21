@@ -5,4 +5,4 @@ RUN apt install swig -y
 RUN python3 -m pip install PyPDF2
 RUN python3 -m pip install .
 
-CMD ["/src/mayhem/fuzz_verify.py"]
+CMD ["/src/mayhem/fuzz_verify.py", "/src/mayhem/testsuite/"]
