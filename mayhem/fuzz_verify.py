@@ -18,6 +18,10 @@ def fuzz_test_verify(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     try:
         with fdp.ConsumeBytes(fdp.remaining_bytes()) as f:
+          f = io.BytesIO(f)
+          yield f
+          f.close()
+
             #d = sign(f.encode('utf-8'),
             #             dct,
             #             p12[0],
@@ -29,7 +33,7 @@ def fuzz_test_verify(input_data):
     except Exception:
         if random() > 0.99:
             raise
-        return 1
+        return -1
 
 
 def main():
