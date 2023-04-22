@@ -21,6 +21,7 @@ def fuzz_test_verify(input_data):
           f = io.BytesIO(f)
           yield f
           f.close()
+        PyPDF2.PdfFileReader.read(f.encode('utf-8'))
 
             #d = sign(f.encode('utf-8'),
             #             dct,
@@ -29,7 +30,7 @@ def fuzz_test_verify(input_data):
             #             p12[2],
             #             'sha256')
             #verify(d)
-            PyPDF2.PdfFileReader.read(f.encode('utf-8'))
+          
     except Exception:
         if random() > 0.99:
             raise
