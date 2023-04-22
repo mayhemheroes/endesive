@@ -17,13 +17,6 @@ with atheris.instrument_imports():
 @atheris.instrument_func
 def fuzz_test_verify(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
-    dct = {
-        'sigflags': 3,
-        'contact': 'jake@mayhem.com',
-        'location': 'Elsewhere',
-        'signingdate': datetime.date.today,
-        'reason': 'For Mayhem',
-    }
     try:
         with fdp.ConsumeBytes(fdp.remaining_bytes()) as f:
             d = sign(f.encode('utf-8'),
@@ -37,7 +30,7 @@ def fuzz_test_verify(input_data):
     except Exception:
         if random() > 0.99:
             raise
-        return 1
+        return -1
 
 
 def main():
@@ -49,5 +42,11 @@ if __name__ == "__main__":
     path = os.path.dirname(os.path.abspath(__file__))
     with open(path + '/demo2_user1.p12', 'rb') as fp:
         p12 = pkcs12.load_key_and_certificates(fp.read(), b'1234', backends.default_backend())
-
+    dct = {
+        'sigflags': 3,
+        'contact': 'jake@mayhem.com',
+        'location': 'Elsewhere',
+        'signingdate': '01-01-2023',
+        'reason': 'For Mayhem',
+    }
     main()
