@@ -29,7 +29,7 @@ def fuzz_test_verify(input_data):
     except Exception:
         if random() > 0.99:
             raise
-        return -1
+        return 1
 
 
 def main():
