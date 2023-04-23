@@ -12,13 +12,14 @@ with atheris.instrument_imports(include=['endesive']):
     from endesive.pdf import verify
     from endesive.pdf import PyPDF2
 
+from endesive.pdf.PyPDF2.utils import PdfReadError
 
 @atheris.instrument_func
-def fuzz_test_verify(input_data):
+def TestOneInput(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     try:
         file = io.BytesIO(fdp.ConsumeBytes(fdp.remaining_bytes()))
-        read = PyPDF2.PdfFileReader.read(file)
+        read = PyPDF2.PdfFileReader(file)
         d = sign(read,
                  dct,
                  p12[0],
@@ -26,6 +27,8 @@ def fuzz_test_verify(input_data):
                  p12[2],
                  'sha256')
         verify(d)
+    except PdfReadError:
+        return -1
     except Exception:
         if random() > 0.99:
             raise
@@ -33,7 +36,7 @@ def fuzz_test_verify(input_data):
 
 
 def main():
-    atheris.Setup(sys.argv, fuzz_test_verify)
+    atheris.Setup(sys.argv, TestOneInput, corpus_dir=path + '/testsuite/')
     atheris.Fuzz()
 
 
