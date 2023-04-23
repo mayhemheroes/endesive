@@ -20,11 +20,7 @@ def TestOneInput(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     try:
         file = io.BytesIO(fdp.ConsumeBytes(fdp.remaining_bytes()))
-        #print(os.environ)
-        #print(sys.argv)
-        #print(file.read())
         PyPDF2.PdfFileReader(file)
-        #exit(1)
         for hash_alg in hash_algs:
             d = sign(file,
                      dct,
