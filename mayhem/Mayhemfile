@@ -4,3 +4,4 @@ target: endesive-fuzz
 cmds:
   - cmd: /src/mayhem/fuzz_verify.py /src/mayhem/testsuite/
     libfuzzer: true
+    timeout: 10
