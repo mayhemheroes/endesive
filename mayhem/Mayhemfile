@@ -1,5 +1,6 @@
 project: endesive
 target: endesive-fuzz
+#image: ghcr.io/jaketbrown/endesive:master
 testsuite:
     - file://mayhem/testsuite
 
