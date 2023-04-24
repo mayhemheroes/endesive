@@ -17,13 +17,14 @@ def TestOneInput(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     try:
         consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
-        sign(consumed_bytes,
-             dct,
-             p12[0],
-             p12[1],
-             p12[2],
-             'sha1')
-    except (PdfReadError, TypeError, ValueError, AssertionError):
+        for hash_alg in hash_algs:
+            sign(consumed_bytes,
+                 dct,
+                 p12[0],
+                 p12[1],
+                 p12[2],
+                 hash_alg)
+    except (PdfReadError, ValueError, TypeError, AssertionError):
         return -1
     except Exception:
         if random() > 0.99:
@@ -50,6 +51,7 @@ if __name__ == "__main__":
     hash_algs = [
         'sha256',
         'sha1',
+        'sha256',
         'sha384',
         'sha512'
     ]
