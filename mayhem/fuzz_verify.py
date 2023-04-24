@@ -18,14 +18,23 @@ def TestOneInput(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     try:
         consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
-        #io_data = io.BytesIO(consumed_bytes).read()
-        for hash_alg in hash_algs:
-            sign(consumed_bytes,
-                 dct,
-                 p12[0],
-                 p12[1],
-                 p12[2],
-                 hash_alg)
+        test = fdp.ConsumeIntInRange(0, 4)
+        if test == 0:
+            hash_alg = 'sha256'
+        elif test == 1:
+            hash_alg = 'sha1'
+        elif test == 2:
+            hash_alg = 'sha384'
+        else:
+            hash_alg = 'sha512'
+        io_data = io.BytesIO(consumed_bytes).read()
+        #for hash_alg in hash_algs:
+        sign(consumed_bytes,
+             dct,
+             p12[0],
+             p12[1],
+             p12[2],
+             hash_alg)
     except (PdfReadError, ValueError, TypeError, AssertionError):
         return -1
     except Exception:
