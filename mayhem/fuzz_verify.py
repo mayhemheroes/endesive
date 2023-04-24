@@ -18,9 +18,9 @@ def TestOneInput(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
     try:
         consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
-        io_data = io.BytesIO(consumed_bytes).read()
+        #io_data = io.BytesIO(consumed_bytes).read()
         for hash_alg in hash_algs:
-            sign(io_data,
+            sign(consumed_bytes,
                  dct,
                  p12[0],
                  p12[1],
