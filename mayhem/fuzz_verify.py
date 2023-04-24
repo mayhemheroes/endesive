@@ -2,7 +2,6 @@
 import os.path
 import atheris
 import sys
-import io
 
 from random import random
 
@@ -24,8 +23,7 @@ def TestOneInput(input_data):
              p12[1],
              p12[2],
              'sha1')
-    #except (PdfReadError, ValueError, TypeError, AssertionError):
-    except (PdfReadError, AssertionError):
+    except (PdfReadError, TypeError, ValueError, AssertionError):
         return -1
     except Exception:
         if random() > 0.99:
