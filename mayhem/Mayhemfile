@@ -1,10 +1,8 @@
 project: endesive
 target: endesive-fuzz
-#image: ghcr.io/jaketbrown/endesive:master
 testsuite:
     - file://mayhem/testsuite
 
 cmds:
   - cmd: /src/mayhem/fuzz_verify.py
     libfuzzer: true
-    timeout: 8
