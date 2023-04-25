@@ -49,10 +49,10 @@ if __name__ == "__main__":
         'reason': 'For Mayhem',
     }
     hash_algs = [
-        'sha256',
-        'sha1',
-        'sha256',
-        'sha384',
+        #'sha256',
+        #'sha1',
+        #'sha256',
+        #'sha384',
         'sha512'
     ]
     main()
