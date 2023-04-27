@@ -12,6 +12,7 @@ with atheris.instrument_imports(include=['endesive']):
     from endesive.email import sign
     from endesive.email import verify
     from endesive.email import encrypt
+    from endesive.email import decrypt
 
 def TestOneInput(input_data):
     fdp = atheris.FuzzedDataProvider(input_data)
@@ -33,9 +34,11 @@ def TestOneInput(input_data):
                  p12[2],
                  hash_alg)
         verify(b.decode('utf8'))
-
         # Now, try encrypting
         d = encrypt(consumed_bytes, p12)
+
+        c = decrypt(d, p12)
+        
     except AssertionError:
         return -1
     except Exception:
