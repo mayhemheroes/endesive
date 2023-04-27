@@ -20,22 +20,49 @@ def TestOneInput(input_data):
     try:
         if ran == 0:
             hash_alg = 'sha1'
+            dct = {
+                'sigflags': 3,
+                'contact': 'jake@mayhem.com',
+                'location': 'Elsewhere',
+                'signingdate': '01-' + ran + '-2023',
+                'reason': 'For Mayhem',
+            }
         elif ran == 1:
             hash_alg = 'sha256'
+            dct = {
+                'sigflags': 3,
+                'contact': 'jake@mayhem.com',
+                'location': 'Elsewhere',
+                'signingdate': '01-' + ran + '-2023',
+                'reason': 'For Mayhem',
+            }
         elif ran == 2:
             hash_alg = 'sha384'
+            dct = {
+                'sigflags': 3,
+                'contact': 'jake@mayhem.com',
+                'location': 'Elsewhere',
+                'signingdate': '01-' + ran + '-2023',
+                'reason': 'For Mayhem',
+            }
         else:
             hash_alg = 'sha512'
+            dct = {
+                'sigflags': 3,
+                'contact': 'jake@mayhem.com',
+                'location': 'Elsewhere',
+                'signingdate': '01-' + ran + '-2023',
+                'reason': 'For Mayhem',
+            }
         consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
-        # for hash_alg in hash_algs:
         b = sign(consumed_bytes,
                  dct,
                  p12[0],
                  p12[1],
                  p12[2],
                  hash_alg)
-        (hashok, signatureok, certok) = verify(b.decode('utf8'))
-    except (PdfReadError, AssertionError):
+        verify(b.decode('utf8'))
+    except AssertionError:
         return -1
     except Exception:
         if random.random() > 0.99:
@@ -51,11 +78,4 @@ if __name__ == "__main__":
     path = os.path.dirname(os.path.abspath(__file__))
     with open(path + '/demo2_user1.p12', 'rb') as fp:
         p12 = pkcs12.load_key_and_certificates(fp.read(), b'1234', backends.default_backend())
-    dct = {
-        'sigflags': 3,
-        'contact': 'jake@mayhem.com',
-        'location': 'Elsewhere',
-        'signingdate': '01-01-2023',
-        'reason': 'For Mayhem',
-    }
     main()
