@@ -20,38 +20,42 @@ def TestOneInput(input_data):
     try:
         if ran == 0:
             hash_alg = 'sha1'
+            random_day = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
             dct = {
                 'sigflags': 3,
                 'contact': 'jake@mayhem.com',
                 'location': 'Elsewhere',
-                'signingdate': '01-' + ran + '-2023',
+                'signingdate': '01-' + str(random_day) + '-2023',
                 'reason': 'For Mayhem',
             }
         elif ran == 1:
             hash_alg = 'sha256'
+            random_day = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
             dct = {
                 'sigflags': 3,
                 'contact': 'jake@mayhem.com',
                 'location': 'Elsewhere',
-                'signingdate': '01-' + ran + '-2023',
+                'signingdate': '01-' + str(random_day) + '-2023',
                 'reason': 'For Mayhem',
             }
         elif ran == 2:
             hash_alg = 'sha384'
+            random_day = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
             dct = {
                 'sigflags': 3,
                 'contact': 'jake@mayhem.com',
                 'location': 'Elsewhere',
-                'signingdate': '01-' + ran + '-2023',
+                'signingdate': '01-' + str(random_day) + '-2023',
                 'reason': 'For Mayhem',
             }
         else:
             hash_alg = 'sha512'
+            random_day = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
             dct = {
                 'sigflags': 3,
                 'contact': 'jake@mayhem.com',
                 'location': 'Elsewhere',
-                'signingdate': '01-' + ran + '-2023',
+                'signingdate': '01-' + str(random_day) + '-2023',
                 'reason': 'For Mayhem',
             }
         consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
