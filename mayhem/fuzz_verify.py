@@ -10,7 +10,6 @@ from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
 
 with atheris.instrument_imports(include=['endesive']):
-    # from endesive.pdf.cms import sign
     from endesive.email import sign
     from endesive.email import verify
 
@@ -43,33 +42,6 @@ def TestOneInput(input_data):
             raise
         return -1
 
-    # fdp = atheris.FuzzedDataProvider(input_data)
-    # ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
-    # try:
-    #     if ran == 0:
-    #         hash_alg = 'sha1'
-    #     elif ran == 1:
-    #         hash_alg = 'sha256'
-    #     elif ran == 2:
-    #         hash_alg = 'sha384'
-    #     else:
-    #         hash_alg = 'sha512'
-    #     consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
-    #     #for hash_alg in hash_algs:
-    #     sign(consumed_bytes,
-    #          dct,
-    #          p12[0],
-    #          p12[1],
-    #          p12[2],
-    #          hash_alg)
-    # except (PdfReadError, ValueError, TypeError, AssertionError):
-    #     return -1
-    # except Exception:
-    #     if random() > 0.99:
-    #         raise
-    #     return -1
-
-
 def main():
     atheris.Setup(sys.argv, TestOneInput)
     atheris.Fuzz()
@@ -86,11 +58,4 @@ if __name__ == "__main__":
         'signingdate': '01-01-2023',
         'reason': 'For Mayhem',
     }
-    # #hash_algs = [
-    #     #'sha256',
-    #     #'sha1',
-    #     #'sha256',
-    #     #'sha384',
-    #     #'sha512'
-    # #]
     main()
