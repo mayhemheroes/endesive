@@ -41,8 +41,9 @@ def TestOneInput(input_data):
         dec = decrypt(enc, p12)
     except AssertionError:
         return -1
-    except Exception:
-        if runs < 10000:
+    except TypeError:
+        print(runs)
+        if runs > 10000:
             raise
         return -1
 
