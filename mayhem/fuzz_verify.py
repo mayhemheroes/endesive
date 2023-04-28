@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+
+import sys
 import os.path
 import atheris
-import sys
 
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
@@ -14,10 +15,9 @@ with atheris.instrument_imports(include=['endesive']):
 
 
 def TestOneInput(input_data):
-    global error_from_verify, error_from_enc, error_from_dec, runs, p12, dct
+    global runs, p12
     fdp = atheris.FuzzedDataProvider(input_data)
     ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
-    runs += 1
     try:
         if ran == 0:
             hash_alg = 'sha1'
@@ -35,27 +35,13 @@ def TestOneInput(input_data):
                  attrs=False,
                  pss=True
                  )
-        # The functions will have an exception almost immediately when called
-        # if runs > 1000:
-        #     if not error_from_verify:
-        #         try:
-        #             verify(b.decode('utf-8'))
-        #         except UnicodeError:
-        #             error_from_verify = True
-        #             raise
-        #     if not error_from_enc:
-        #         try:
-        #             encrypt(b, p12)
-        #         except AttributeError:
-        #             error_from_enc = True
-        #             raise
-        #     if not error_from_dec:
-        #         try:
-        #             decrypt(b.decode('utf-8'), p12)
-        #         except AttributeError:
-        #             error_from_dec = True
-        #             raise
-    except TypeError:
+        verify(b.decode('utf-8'))
+        encrypt(b, p12)
+        decrypt(b.decode('utf-8'), p12)
+    except (AttributeError, UnicodeDecodeError, ValueError, TypeError):
+        # skip the first few exceptions
+        if runs > 200:
+            return
         raise
 
 
@@ -65,18 +51,8 @@ def main():
 
 
 if __name__ == "__main__":
-    error_from_verify = False
-    error_from_dec = False
-    error_from_enc = False
     runs = 0
     path = os.path.dirname(os.path.abspath(__file__))
     with open(path + '/demo2_user1.p12', 'rb') as fp:
         p12 = pkcs12.load_key_and_certificates(fp.read(), b'1234', backends.default_backend())
-    dct = {
-        'sigflags': 3,
-        'contact': 'jake@mayhem.com',
-        'location': 'Elsewhere',
-        'signingdate': '01-01-2023',
-        'reason': 'For Mayhem',
-    }
     main()
