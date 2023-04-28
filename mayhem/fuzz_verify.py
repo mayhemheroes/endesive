@@ -42,7 +42,7 @@ def TestOneInput(input_data):
     except AssertionError:
         return -1
     except Exception:
-        if runs < 10:
+        if runs < 10000:
             raise
         return -1
 
