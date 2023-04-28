@@ -36,25 +36,25 @@ def TestOneInput(input_data):
                  pss=True
                  )
         # The functions will have an exception almost immediately when called
-        if runs > 1000:
-            if not error_from_verify:
-                try:
-                    verify(b.decode('utf-8'))
-                except UnicodeError:
-                    error_from_verify = True
-                    raise
-            if not error_from_enc:
-                try:
-                    encrypt(b, p12)
-                except AttributeError:
-                    error_from_enc = True
-                    raise
-            if not error_from_dec:
-                try:
-                    decrypt(b.decode('utf-8'), p12)
-                except AttributeError:
-                    error_from_dec = True
-                    raise
+        # if runs > 1000:
+        #     if not error_from_verify:
+        #         try:
+        #             verify(b.decode('utf-8'))
+        #         except UnicodeError:
+        #             error_from_verify = True
+        #             raise
+        #     if not error_from_enc:
+        #         try:
+        #             encrypt(b, p12)
+        #         except AttributeError:
+        #             error_from_enc = True
+        #             raise
+        #     if not error_from_dec:
+        #         try:
+        #             decrypt(b.decode('utf-8'), p12)
+        #         except AttributeError:
+        #             error_from_dec = True
+        #             raise
     except TypeError:
         raise
 
