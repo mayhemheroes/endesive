@@ -11,6 +11,8 @@ from cryptography.hazmat.primitives.serialization import pkcs12
 with atheris.instrument_imports(include=['endesive']):
     from endesive.email import sign
     from endesive.email import verify
+    from endesive.email import decrypt
+    from endesive.email import encrypt
 
 
 def TestOneInput(input_data):
@@ -33,6 +35,8 @@ def TestOneInput(input_data):
                  p12[2],
                  hash_alg)
         verify(b.decode('utf8'))
+        enc = encrypt(b, p12)
+        dec = decrypt(enc, p12)
     except AssertionError:
         return -1
     except Exception:
