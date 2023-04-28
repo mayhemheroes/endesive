@@ -18,6 +18,7 @@ def TestOneInput(input_data):
     global runs, p12
     fdp = atheris.FuzzedDataProvider(input_data)
     ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
+    runs += 1
     try:
         if ran == 0:
             hash_alg = 'sha1'
@@ -40,7 +41,7 @@ def TestOneInput(input_data):
         decrypt(b.decode('utf-8'), p12)
     except (AttributeError, UnicodeDecodeError, ValueError, TypeError):
         # skip the first few exceptions
-        if runs > 200:
+        if runs > 1000:
             return
         raise
 
