@@ -3,7 +3,7 @@ import os.path
 import atheris
 import sys
 
-import random
+#import random
 
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
@@ -16,8 +16,10 @@ with atheris.instrument_imports(include=['endesive']):
 
 
 def TestOneInput(input_data):
+    global runs, p12, dct
     fdp = atheris.FuzzedDataProvider(input_data)
     ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
+    runs += 1
     try:
         if ran == 0:
             hash_alg = 'sha1'
@@ -40,7 +42,7 @@ def TestOneInput(input_data):
     except AssertionError:
         return -1
     except Exception:
-        if random.random() > 0.99:
+        if runs < 10:
             raise
         return -1
 
@@ -50,6 +52,7 @@ def main():
 
 
 if __name__ == "__main__":
+    runs = 0
     path = os.path.dirname(os.path.abspath(__file__))
     with open(path + '/demo2_user1.p12', 'rb') as fp:
         p12 = pkcs12.load_key_and_certificates(fp.read(), b'1234', backends.default_backend())
