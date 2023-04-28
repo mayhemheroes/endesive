@@ -36,14 +36,14 @@ def TestOneInput(input_data):
                  attrs=False,
                  pss=True
                  )
-        verify(b.decode('utf-8'))
+        verify(b.decode('utf-8'), p12)
         encrypt(b, p12)
         decrypt(b.decode('utf-8'), p12)
     except (AttributeError, UnicodeDecodeError, ValueError, TypeError):
         # skip the first few exceptions
         if runs > 1000:
-            return
-        raise
+            raise
+        return
 
 
 def main():
