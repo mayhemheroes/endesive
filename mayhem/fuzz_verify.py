@@ -7,15 +7,14 @@ import atheris
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.serialization import pkcs12
 
+
 with atheris.instrument_imports(include=['endesive']):
-    from endesive.email import sign
-    # from endesive.email import verify
-    # from endesive.email import decrypt
-    # from endesive.email import encrypt
+    from endesive.pdf.cms import sign
+    from endesive.pdf.PyPDF2.utils import PdfReadError
 
 
 def TestOneInput(input_data):
-    global runs, p12
+    global runs, p12, dct
     fdp = atheris.FuzzedDataProvider(input_data)
     ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
     runs += 1
@@ -31,18 +30,18 @@ def TestOneInput(input_data):
 
         consumed_bytes = fdp.ConsumeBytes(fdp.remaining_bytes())
         b = sign(consumed_bytes,
+                 dct,
                  p12[0], p12[1], p12[2],
-                 hash_alg,
-                 attrs=False,
-                 pss=True
+                 hash_alg
                  )
         # verify(b.decode('utf-8'), p12)
         # encrypt(b, p12)
         # decrypt(b.decode('utf-8'), p12)
-    except (AttributeError, UnicodeDecodeError, ValueError, TypeError):
+    except (AttributeError, UnicodeDecodeError, ValueError, TypeError, PdfReadError, KeyError, IndexError):
         # skip the first few exceptions
-        if runs > 1000:
+        if runs > 10000:
             raise
+        return -1
 
 
 def main():
@@ -55,4 +54,12 @@ if __name__ == "__main__":
     path = os.path.dirname(os.path.abspath(__file__))
     with open(path + '/demo2_user1.p12', 'rb') as fp:
         p12 = pkcs12.load_key_and_certificates(fp.read(), b'1234', backends.default_backend())
+    dct = {
+        'sigflags': 3,
+        'contact': 'mak@trisoft.com.pl',
+        'location': 'Szczecin',
+        'signingdate': '20180731082642+02\'00\'',
+        'reason': 'Dokument podpisany cyfrowo',
+        'aligned': 0,
+    }
     main()
