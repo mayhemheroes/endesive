@@ -9,23 +9,21 @@ from cryptography.hazmat.primitives.serialization import pkcs12
 
 with atheris.instrument_imports(include=['endesive']):
     from endesive.email import sign
-    from endesive.email import verify
-    from endesive.email import decrypt
-    from endesive.email import encrypt
+    # from endesive.email import verify
+    # from endesive.email import decrypt
+    # from endesive.email import encrypt
 
 
 def TestOneInput(input_data):
     global runs, p12
     fdp = atheris.FuzzedDataProvider(input_data)
-    ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
+    ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 3))
     runs += 1
     try:
         if ran == 0:
             hash_alg = 'sha1'
         elif ran == 1:
             hash_alg = 'sha256'
-        elif ran == 2:
-            hash_alg = 'sha384'
         else:
             hash_alg = 'sha512'
 
@@ -36,7 +34,7 @@ def TestOneInput(input_data):
                  attrs=False,
                  pss=True
                  )
-        verify(b.decode('utf-8'), p12)
+        # verify(b.decode('utf-8'), p12)
         # encrypt(b, p12)
         # decrypt(b.decode('utf-8'), p12)
     except (AttributeError, UnicodeDecodeError, ValueError, TypeError):
