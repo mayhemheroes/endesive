@@ -17,13 +17,15 @@ with atheris.instrument_imports(include=['endesive']):
 def TestOneInput(input_data):
     global runs, p12
     fdp = atheris.FuzzedDataProvider(input_data)
-    ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 3))
+    ran = fdp.ConsumeInt(fdp.ConsumeIntInRange(0, 4))
     runs += 1
     try:
         if ran == 0:
             hash_alg = 'sha1'
         elif ran == 1:
             hash_alg = 'sha256'
+        elif ran == 2:
+            hash_alg = 'sha384'
         else:
             hash_alg = 'sha512'
 
@@ -41,7 +43,6 @@ def TestOneInput(input_data):
         # skip the first few exceptions
         if runs > 1000:
             raise
-        return
 
 
 def main():
