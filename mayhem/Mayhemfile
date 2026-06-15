@@ -1,0 +1,6 @@
+project: endesive
+target: endesive-fuzz
+cmds:
+  - cmd: /mayhem/endesive-fuzz
+    libfuzzer: true
+    timeout: 30
